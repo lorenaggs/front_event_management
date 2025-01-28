@@ -1,0 +1,24 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 900px;
+}
+
+.container-body{
+    margin: 100px 0 130px 0;
+}
+
+.form{
+    margin-top: 180px !important;
+    margin-bottom: 180px !important;
+}
+
+.form-group{
+    margin: 15px 0;
+}
+
+.form-label{
+    margin-bottom: 10px;
+}
