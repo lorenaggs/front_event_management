@@ -63,7 +63,7 @@ const Eventos = () => {
     };
 
     return (
-        <div className="container">
+        <div className="container form">
             <ToastContainer />
             <h1 className="text-center mb-4">{t('events.manageEvents')}</h1>
             <EventoForm onAddOrUpdate={handleAddOrUpdateEvento} initialData={selectedEvent} />
@@ -84,7 +84,7 @@ const Eventos = () => {
                             <td>{new Date(evento.fecha_hora).toLocaleString()}</td>
                             <td>{evento.zona_horaria}</td>
                             <td>{evento.invitados}</td>
-                            <td>{evento.descripcion || t('events.descriptionUnavailable')}</td>
+                            <td>{evento.descripcion || t('home.descriptionUnavailable')}</td>
                             <td>{evento.repeticion}</td>
                             <td>{evento.recordatorio ? t('events.yesRememberEvent') : t('events.noRememberEvent')}</td>
                             <td>{evento.clasificacion || t('events.noClassification')}</td>

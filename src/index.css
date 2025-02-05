@@ -55,6 +55,9 @@ code {
     height: 100%;
 }
 
+.container-section{
+    margin-bottom: 150px;
+}
 
 @media (max-width: 655px) {
     .custom-navbar {
