@@ -26,16 +26,16 @@ const Eventos = () => {
         }
     };
 
-    const handleAddOrUpdateEvento = async (evento, id) => {
+    const handleAddEvento = async (evento) => {
         const formData = new FormData();
         Object.keys(evento).forEach(key => formData.append(key, evento[key]));
         setLoading(true);
 
         try {
-            const response = id ? await api.put(`/eventos/${id}/`, formData) : await api.post('/eventos/', formData);
-            setEventos(prev => id ? prev.map(e => e.id === id ? response.data : e) : [...prev, response.data]);
+            const response = await api.post('/eventos/', formData);
+            setEventos(prev => [...prev, response.data]);
             setSelectedEvent(null);
-            toast.success(id ? t('events.eventUpdated') : t('events.eventAdded'));
+            toast.success(t('events.eventAdded'));
         } catch (error) {
             console.error('Error:', error);
             toast.error(t('errors.updateFailed'));
@@ -44,15 +44,45 @@ const Eventos = () => {
         }
     };
 
+    const handleUpdateEvento = async (evento) => {
+        const formData = new FormData();
+        Object.keys(evento).forEach(key => formData.append(key, evento[key]));
+        setLoading(true);
+
+        try {
+            const response = await api.put(`/eventos/${evento.id}/`, formData);
+            setEventos(prev => prev.map(e => e.id === evento.id ? { ...response.data } : e));
+            setSelectedEvent(null);
+            toast.success(t('events.eventUpdated'));
+        } catch (error) {
+            console.error('Error:', error);
+            toast.error(t('errors.updateFailed'));
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleAddOrUpdateEvento = (evento, id) => {
+        if (evento.id === selectedEvent.id) {
+            handleUpdateEvento(evento);
+        } else {
+            handleAddEvento(evento);
+        }
+    };
+
     const onDelete = async (id) => {
         if (window.confirm(t('events.confirmDelete'))) {
+            setLoading(true);
             try {
                 await api.delete(`/eventos/${id}/`);
-                setEventos(prev => prev.filter(evento => evento.id !== id));
+                setEventos(prev => prev.filter(e => e.id !== id));
+                setSelectedEvent(null);
                 toast.success(t('events.eventDeleted'));
             } catch (error) {
                 console.error("Error:", error);
                 toast.error(t('errors.deleteFailed'));
+            } finally {
+                setLoading(false);
             }
         }
     };
@@ -107,5 +137,3 @@ const Eventos = () => {
 };
 
 export default Eventos;
-
-
