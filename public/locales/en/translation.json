@@ -127,7 +127,9 @@
     "deleting": "Deleting",
     "deleteFailed": "Delete failed",
     "eventEditLoaded": "Loading events to edit",
-    "eventNotFound": "Event not found"
+    "eventNotFound": "Event not found",
+    "yesRememberEvent": "Yes",
+    "noRememberEvent": "No"
   },
   "footer": {
     "copyright": "© {{year}} Event Management. All rights reserved.",

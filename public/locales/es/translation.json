@@ -127,7 +127,9 @@
     "deleting": "Elimiando",
     "deleteFailed": "Eliminación fallida",
     "eventEditLoaded": "Cargando evento para editar",
-    "eventNotFound": "Evento no encontrado"
+    "eventNotFound": "Evento no encontrado",
+    "yesRememberEvent": "Si",
+    "noRememberEvent": "No"
   },
   "footer": {
     "copyright": "© {{year}} Gestión de Eventos. Todos los derechos reservados.",
