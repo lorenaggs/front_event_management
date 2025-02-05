@@ -17,7 +17,7 @@ const Contactos = () => {
                 setContactos(response.data);
             } catch (error) {
                 console.error('Error al cargar contactos:', error);
-                //toast.error(t('contactManagement.errorLoadingEvents'));
+                //toast.error(t('contactForm.errorLoadingEvents'));
             }
         };
         fetchContactos();
@@ -26,6 +26,11 @@ const Contactos = () => {
     const handleAddOrUpdateContacto = async (contacto) => {
         const formData = new FormData();
         Object.keys(contacto).forEach(key => formData.append(key, contacto[key]));
+
+        const toastId = toast.loading ?
+            toast.loading(t('contactForm.loadingContact')) :
+            toast.info(t('contactForm.loadingContact'), { autoClose: false });
+
         try {
             const response = selectedContacto
                 ? await api.put(`/contactos/${selectedContacto.id}/`, formData)
@@ -36,10 +41,14 @@ const Contactos = () => {
                 : [...contactos, response.data];
 
             setContactos(updatedContactos);
-            toast.success(selectedContacto ? t('contactManagement.contactUpdated') : t('contactManagement.contactAdded'));
+
+            toast.dismiss(toastId);
+            toast.success(selectedContacto ? t('contactForm.contactUpdated') : t('contactForm.contactAdded'));
         } catch (error) {
             console.error('Error al guardar contacto:', error);
-            toast.error(t('contactManagement.errorSaving'));
+
+            toast.dismiss(toastId);
+            toast.error(t('contactForm.errorSaving'));
         } finally {
             setSelectedContacto(null);
         }
@@ -51,14 +60,14 @@ const Contactos = () => {
     };
 
     const onDelete = async (id) => {
-        if (window.confirm(t('contactManagement.confirmDelete'))) {
+        if (window.confirm(t('contactForm.confirmDelete'))) {
             try {
                 await api.delete(`/contactos/${id}/`);
                 setContactos(contactos.filter(c => c.id !== id));
-                toast.success(t('contactManagement.contactDeleted'));
+                toast.success(t('contactForm.contactDeleted'));
             } catch (error) {
                 console.error('Error al eliminar contacto:', error);
-                toast.error(t('contactManagement.errorDeleting'));
+                toast.error(t('contactForm.errorDeleting'));
             }
         }
     };
@@ -66,24 +75,24 @@ const Contactos = () => {
     return (
         <div className="container form">
             <ToastContainer />
-            <h1 className="text-center mb-4">{t('contactManagement.pageTitle')}</h1>
+            <h1 className="text-center mb-4">{t('contactForm.pageTitle')}</h1>
             <ContactoForm onSubmit={handleAddOrUpdateContacto} initialData={selectedContacto} />
             <div className="mt-5">
-                <h2>{t('contactManagement.contactListTitle')}</h2>
+                <h2>{t('contactForm.contactListTitle')}</h2>
                 {contactos.length === 0 ? (
-                    <p>{t('contactManagement.noContactsRegistered')}</p>
+                    <p>{t('contactForm.noContactsRegistered')}</p>
                 ) : (
                     <table className="table table-striped table-bordered">
                         <thead className="table-dark">
                         <tr>
-                            <th>{t('contactManagement.headerNumber')}</th>
-                            <th>{t('contactManagement.headerGreeting')}</th>
-                            <th>{t('contactManagement.headerFullName')}</th>
-                            <th>{t('contactManagement.headerID')}</th>
-                            <th>{t('contactManagement.headerEmail')}</th>
-                            <th>{t('contactManagement.headerPhone')}</th>
-                            <th>{t('contactManagement.headerPhoto')}</th>
-                            <th>{t('contactManagement.headerActions')}</th>
+                            <th>{t('contactForm.headerNumber')}</th>
+                            <th>{t('contactForm.headerGreeting')}</th>
+                            <th>{t('contactForm.headerFullName')}</th>
+                            <th>{t('contactForm.headerID')}</th>
+                            <th>{t('contactForm.headerEmail')}</th>
+                            <th>{t('contactForm.headerPhone')}</th>
+                            <th>{t('contactForm.headerPhoto')}</th>
+                            <th>{t('contactForm.headerActions')}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -98,14 +107,14 @@ const Contactos = () => {
                                 <td>
                                     {contacto.fotografia ? (
                                         <img src={contacto.fotografia} alt={contacto.nombre_completo} style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
-                                    ) : t('contactManagement.noAvailable')}
+                                    ) : t('contactForm.noAvailable')}
                                 </td>
                                 <td>
                                     <button className="btn btn-warning btn-sm me-2" onClick={() => onEdit(contacto.id)}>
-                                        {t('contactManagement.edit')}
+                                        {t('contactForm.edit')}
                                     </button>
                                     <button className="btn btn-danger btn-sm" onClick={() => onDelete(contacto.id)}>
-                                        {t('contactManagement.delete')}
+                                        {t('contactForm.delete')}
                                     </button>
                                 </td>
                             </tr>

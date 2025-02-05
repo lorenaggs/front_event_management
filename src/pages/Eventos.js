@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
 import EventoForm from '../components/EventoForm';
 import { useTranslation } from "react-i18next";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Eventos = () => {
     const [eventos, setEventos] = useState([]);
@@ -32,6 +33,12 @@ const Eventos = () => {
         const formData = new FormData();
         Object.keys(evento).forEach(key => formData.append(key, evento[key]));
 
+        const toastId = toast.loading ?
+            toast.loading(t('events.eventAwait')) :
+            toast.info(t('events.eventAwait'), { autoClose: false });
+
+        setLoading(true);
+
         try {
             const response = id
                 ? await api.put(`/eventos/${id}/`, formData)
@@ -41,34 +48,53 @@ const Eventos = () => {
                 id ? prevEventos.map(e => (e.id === id ? response.data : e))
                     : [...prevEventos, response.data]
             );
-
             setSelectedEvent(null);
-            alert(id ? t('events.eventUpdated') : t('events.eventAdded'));
+
+            toast.dismiss(toastId);
+            toast.success(id ? t('events.eventUpdated') : t('events.eventAdded'));
         } catch (error) {
             console.error('Error:', error);
-            alert(t('errors.updateFailed'));
+            toast.dismiss(toastId);
+            toast.error(t('errors.updateFailed'));
+        } finally {
+            setLoading(false);
         }
     };
 
     const onDelete = useCallback(async (id) => {
-        if (window.confirm(t('events.confirmDelete'))) {
+        if (window.confirm(t('events.confirmDelete'))) {  // Consider replacing with a modal for a better UX
+            const toastId = toast.loading ?
+                toast.loading(t('events.deleting')) :
+                toast.info(t('events.deleting'), { autoClose: false });
+
             try {
                 await api.delete(`/eventos/${id}/`);
                 setEventos(prevEventos => prevEventos.filter(evento => evento.id !== id));
                 setSelectedEvent(null);
+                toast.dismiss(toastId);
+                toast.success(t('events.eventDeleted'));
             } catch (error) {
                 console.error("Error al eliminar evento:", error);
-                alert(t('errors.deleteFailed'));
+                toast.dismiss(toastId);
+                toast.error(t('errors.deleteFailed'));
             }
         }
     }, [t]);
 
     const onEdit = useCallback(id => {
-        setSelectedEvent(eventos.find(evento => evento.id === id));
-    }, [eventos]);
+        const evento = eventos.find(evento => evento.id === id);
+        if (evento) {
+            setSelectedEvent(evento);
+            toast.info(t('events.eventEditLoaded'));
+        } else {
+            toast.error(t('events.eventNotFound'));
+        }
+    }, [eventos, t]);
+
 
     return (
         <div className="container form">
+            <ToastContainer />
             <h1 className="text-center mb-4">{t('events.manageEvents')}</h1>
             <EventoForm onAddOrUpdate={handleAddOrUpdateEvento} initialData={selectedEvent} />
 

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 
-const EventoForm = ({onAdd, initialData = null}) => {
+const EventoForm = ({onAddOrUpdate, initialData = null}) => {
     const [evento, setEvento] = useState({
         titulo: '',
         invitados: '',
@@ -35,7 +35,12 @@ const EventoForm = ({onAdd, initialData = null}) => {
             alert(t('eventoForm.mandatoryFields'));
             return;
         }
-        onAdd(evento);
+
+        if (typeof onAddOrUpdate === 'function') {
+            onAddOrUpdate(evento);
+        } else {
+            console.error('onAddOrUpdate is not a function');
+        }
         if (!initialData) {
             setEvento({
                 titulo: '',

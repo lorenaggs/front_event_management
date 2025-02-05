@@ -3,6 +3,7 @@ import api from '../services/api';
 import UbicacionForm from '../components/UbicacionForm';
 import '../i18nConfig';
 import { useTranslation } from "react-i18next";
+import {toast, ToastContainer} from "react-toastify";
 
 const Ubicaciones = () => {
     const [ubicaciones, setUbicaciones] = useState([]);
@@ -26,43 +27,61 @@ const Ubicaciones = () => {
         };
 
         fetchUbicaciones();
-    }, [t]);  // Including t to ensure re-fetching on language change
+    }, [t]);
 
     const handleAddUbicacion = async (nuevaUbicacion) => {
+        const toastId = toast.loading ?
+            toast.loading(t('events.eventAwait')) :
+            toast.info(t('events.eventAwait'), { autoClose: false });
+
         try {
             const response = await api.post('/ubicaciones/', nuevaUbicacion);
             setUbicaciones(prev => [...prev, response.data]);
-            // Replace alert with user-friendly feedback
+            toast.dismiss(toastId);
+            toast.success(t('events.locationAdded'));
         } catch (error) {
             console.error(t('events.errorSaving'), error);
-            setError(t('events.errorSaving'));
+            toast.dismiss(toastId);
+            toast.error(t('events.errorSaving'));
         }
     };
 
     const handleUpdateUbicacion = async (ubicacionActualizada) => {
+        const toastId = toast.loading ?
+            toast.loading(t('events.eventAwait')) :
+            toast.info(t('events.eventAwait'), { autoClose: false });
+
         try {
             const response = await api.put(`/ubicaciones/${selectedUbicacion.id}/`, ubicacionActualizada);
             setUbicaciones(prev => prev.map(ubicacion => ubicacion.id === selectedUbicacion.id ? response.data : ubicacion));
             setSelectedUbicacion(null);
-            // Replace alert with user-friendly feedback
+            toast.dismiss(toastId);
+            toast.success(t('events.locationUpdated'));
         } catch (error) {
             console.error(t('events.errorUpdatingEvent'), error);
-            setError(t('events.errorUpdatingEvent'));
+            toast.dismiss(toastId);
+            toast.error(t('events.errorUpdatingEvent'));
         }
     };
 
     const onDelete = async (id) => {
-        if (window.confirm(t('contactManagement.confirmDelete'))) {
+        if (window.confirm(t('contactForm.confirmDelete'))) {
+            const toastId = toast.loading ?
+                toast.loading(t('events.eventAwait')) :
+                toast.info(t('events.eventAwait'), { autoClose: false });
+
             try {
                 await api.delete(`/ubicaciones/${id}/`);
                 setUbicaciones(prev => prev.filter(ubicacion => ubicacion.id !== id));
                 if (selectedUbicacion && selectedUbicacion.id === id) {
                     setSelectedUbicacion(null);
                 }
-                // Replace alert with user-friendly feedback
+                toast.dismiss(toastId);
+                toast.success(t('events.locationDeleted'));
             } catch (error) {
                 console.error(t('events.errorDeletingEvent'), error);
-                setError(t('events.errorDeletingEvent'));
+                toast.dismiss(toastId);
+                toast.error(t('events.errorDeletingEvent'));
             }
         }
     };
@@ -70,10 +89,13 @@ const Ubicaciones = () => {
     const onEdit = (id) => {
         const ubicacion = ubicaciones.find(ubicacion => ubicacion.id === id);
         setSelectedUbicacion(ubicacion);
+        toast.info(t('events.locationEditLoaded'));
     };
+
 
     return (
         <div className="container form">
+            <ToastContainer />
             <h1 className="text-center">{t('navbar.locations')}</h1>
             {error && <div className="alert alert-danger">{error}</div>}
             {selectedUbicacion ? (
