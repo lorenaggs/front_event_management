@@ -22,11 +22,11 @@ const EventoForm = ({onAdd, initialData = null}) => {
     }, [initialData]);
 
     const handleChange = (e) => {
-        const {name, value, type, checked} = e.target;
-        setEvento(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }));
+        const { name, value, type, checked } = e.target;
+        setEvento({
+            ...evento,
+            [name]: type === 'checkbox' ? checked : value,
+        });
     };
 
     const handleSubmit = (e) => {

@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import api from '../services/api';
 import '../i18nConfig';
 import {useTranslation} from "react-i18next";
-import ReactPlayer from 'react-player';
 
 const Home = () => {
     const [eventosDestacados, setEventosDestacados] = useState([]);
