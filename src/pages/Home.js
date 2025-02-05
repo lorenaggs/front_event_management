@@ -31,17 +31,13 @@ const Home = () => {
             </div>
             {error && <div className="alert alert-danger">{error}</div>}
             <section className="text-center mb-5">
-                <h2>{t('home.titleVideo')}</h2> {/* Example title use */}
-                <div className='player-wrapper'>
-                    <ReactPlayer
-                        url='https://www.youtube.com/watch?v=e38dBj55jUY'
-                        className='react-player'
-                        playing
-                        width='100%'
-                        height='100%'
-                        controls={true}
-                    />
-                </div>
+                <h2>{t('home.titleVideo')}</h2>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/e38dBj55jUY"
+                        title="YouTube video player" frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen></iframe>
+
+
             </section>
 
             <section className="mb-5">
