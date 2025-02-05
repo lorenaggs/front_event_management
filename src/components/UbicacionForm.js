@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const UbicacionForm = ({ onSubmit, initialData = null }) => {
+    const { t } = useTranslation();
     const [ubicacion, setUbicacion] = useState({
         titulo: '',
         direccion: '',
         coordenadas: '',
     });
 
-    // Actualizar el formulario con datos iniciales o resetearlo
     useEffect(() => {
         if (initialData) {
             setUbicacion(initialData);
@@ -22,62 +23,68 @@ const UbicacionForm = ({ onSubmit, initialData = null }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setUbicacion({
-            ...ubicacion,
+        setUbicacion(prev => ({
+            ...prev,
             [name]: value,
-        });
+        }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(ubicacion); // Llama a la función de creación o edición
+        onSubmit(ubicacion);
         setUbicacion({
             titulo: '',
             direccion: '',
             coordenadas: '',
-        }); // Resetea el formulario después de guardar
+        });
     };
 
     return (
         <form onSubmit={handleSubmit}>
             <div className="mb-3">
-                <label className="form-label">Título</label>
+                <label htmlFor="titulo" className="form-label">{t('ubicacionForm.title')}</label>
                 <input
                     type="text"
                     className="form-control"
+                    id="titulo"
                     name="titulo"
                     value={ubicacion.titulo}
                     onChange={handleChange}
                     required
+                    placeholder={t('ubicacionForm.placeholderTitle')}
                 />
             </div>
 
             <div className="mb-3">
-                <label className="form-label">Dirección</label>
+                <label htmlFor="direccion" className="form-label">{t('ubicacionForm.address')}</label>
                 <textarea
                     className="form-control"
+                    id="direccion"
                     name="direccion"
                     value={ubicacion.direccion}
                     onChange={handleChange}
                     rows="3"
                     required
+                    placeholder={t('ubicacionForm.placeholderAddress')}
                 ></textarea>
             </div>
 
             <div className="mb-3">
-                <label className="form-label">Coordenadas</label>
+                <label htmlFor="coordenadas" className="form-label">{t('ubicacionForm.coordinates')}</label>
                 <input
                     type="text"
                     className="form-control"
+                    id="coordenadas"
                     name="coordenadas"
                     value={ubicacion.coordenadas}
                     onChange={handleChange}
                     required
+                    placeholder={t('ubicacionForm.placeholderCoordinates')}
                 />
             </div>
 
             <button type="submit" className="btn btn-primary">
-                {initialData ? 'Guardar Cambios' : 'Guardar Ubicación'}
+                {initialData ? t('ubicacionForm.updateButton') : t('ubicacionForm.submitButton')}
             </button>
         </form>
     );

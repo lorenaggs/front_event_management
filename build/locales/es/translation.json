@@ -1,0 +1,77 @@
+{
+  "form": {
+    "greeting": "Saludo",
+    "fullName": "Nombre Completo",
+    "idNumber": "Número de Identificación",
+    "email": "Correo Electrónico",
+    "phoneNumber": "Número de Teléfono",
+    "photo": "Fotografía",
+    "select": "Seleccione",
+    "mr": "Sr.",
+    "mrs": "Sra.",
+    "dr": "Dr.",
+    "submitBtn": "Guardar Contacto",
+    "updateBtn": "Guardar Cambios",
+    "requiredFields": "Por favor complete todos los campos obligatorios.",
+    "dear": "Estimado/a"
+  },
+  "home": {
+    "title": "Sistema de Gestión de Eventos",
+    "subtitle": "Un sistema diseñado para ayudarte a organizar, registrar y consultar eventos importantes en tu institución educativa.",
+    "whatYouCanDo": "¿Qué puedes hacer con este sistema?",
+    "eventManagement": "Gestión de Eventos: Crea, consulta y administra conferencias, talleres y seminarios.",
+    "locations": "Ubicaciones: Registra y consulta los lugares donde se llevarán a cabo los eventos.",
+    "contacts": "Contactos: Gestiona la información de los contactos relevantes para tus eventos.",
+    "eventDetails": "Datos necesarios: título, invitados, fecha y hora, zona horaria, descripción, lugar y recordatorio.",
+    "locationDetails": "Datos necesarios: título, dirección y coordenadas geográficas.",
+    "contactDetails": "Datos necesarios: saludo, nombre completo, número de identificación, correo electrónico, número de teléfono y fotografía.",
+    "featuredEvents": "Eventos Destacados",
+    "noEventsAvailable": "No hay eventos destacados disponibles.",
+    "descriptionUnavailable": "Sin descripción disponible.",
+    "dateTime": "Fecha y hora:"
+  },
+  "eventoForm": {
+    "title": "Título",
+    "guests": "Invitados",
+    "dateTime": "Fecha y Hora",
+    "timeZone": "Zona Horaria",
+    "description": "Descripción",
+    "repetition": "Repetición",
+    "reminder": "Recordatorio",
+    "classification": "Clasificación",
+    "place": "Lugar",
+    "submit": "Guardar Evento",
+    "submitChanges": "Guardar Cambios",
+    "none": "Ninguna",
+    "daily": "Diaria",
+    "weekly": "Semanal",
+    "mandatoryFields": "Por favor complete todos los campos obligatorios."
+  },
+  "eventoList": {
+    "title": "Lista de Eventos"
+  },
+  "events": {
+    "manageEvents": "Gestión de Eventos",
+    "eventListTitle": "Lista de Eventos",
+    "loadingEvents": "Cargando eventos...",
+    "noEvents": "No hay eventos registrados.",
+    "errorLoadingEvents": "Error al cargar los eventos. Por favor, intente nuevamente.",
+    "title": "Título",
+    "dateTime": "Fecha y Hora",
+    "timeZone": "Zona Horaria",
+    "guests": "Invitados",
+    "description": "Descripción",
+    "repetition": "Repetición",
+    "reminder": "Recordatorio",
+    "classification": "Clasificación",
+    "place": "Lugar",
+    "actions": "Acciones",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "eventDeleted": "Evento eliminado correctamente.",
+    "errorDeletingEvent": "Hubo un error al eliminar el evento.",
+    "eventUpdated": "Evento actualizado correctamente.",
+    "errorUpdatingEvent": "Hubo un error al actualizar el evento."
+  }
+}
+

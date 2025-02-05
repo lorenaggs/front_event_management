@@ -1,13 +1,94 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.custom-navbar .navbar-nav .nav-link {
+    padding: 0.5rem 1rem;
+}
+
+.icon-whatsapp {
+    color: #25D366;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.icon-linkedin {
+    color: #0077B5;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.icon-whatsapp:hover,
+.icon-linkedin:hover {
+    color: #cccccc;
+}
+
+.container-navbar {
+    display: flex !important;
+    align-items: start !important;
+    flex-wrap: nowrap !important;
+    padding: 1rem !important;
+}
+
+.player-wrapper {
+    position: relative;
+    padding-top: 56.25%;
+    width: 100%;
+    height: 0;
+}
+
+.react-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+@media (max-width: 655px) {
+    .custom-navbar {
+        font-size: 0.9rem !important;
+    }
+
+    .icon-language {
+        display: none;
+        align-items: center;
+    }
+
+    .container-navbar {
+        align-items: center !important;
+    }
+
+    .navbar-toggler {
+        font-size: 0.8rem !important;
+    }
+
+    .container-title{
+        font-size: 0.8rem !important;
+    }
+
+    .nav-item{
+        font-size: 0.8rem !important;
+    }
+
+}
+
+
+@media (max-width: 991px) {
+
+    .nav-options{
+        width: 80px;
+    }
+}
+

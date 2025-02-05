@@ -1,0 +1,78 @@
+{
+  "form": {
+    "greeting": "Greeting",
+    "fullName": "Full Name",
+    "idNumber": "Identification Number",
+    "email": "Email",
+    "phoneNumber": "Phone Number",
+    "photo": "Photo",
+    "select": "Select",
+    "mr": "Mr.",
+    "mrs": "Mrs.",
+    "dr": "Dr.",
+    "submitBtn": "Save Contact",
+    "updateBtn": "Save Changes",
+    "requiredFields": "Please complete all required fields.",
+    "dear": "Dear"
+  },
+  "home": {
+    "title": "Event Management System",
+    "subtitle": "A system designed to help you organize, register, and check important events at your educational institution.",
+    "whatYouCanDo": "What can you do with this system?",
+    "eventManagement": "Event Management: Create, consult, and manage conferences, workshops, and seminars.",
+    "locations": "Locations: Register and consult the places where events will take place.",
+    "contacts": "Contacts: Manage the information of relevant contacts for your events.",
+    "eventDetails": "Required details include title, guests, date and time, timezone, description, place, and reminder.",
+    "locationDetails": "Required details include title, address, and geographical coordinates.",
+    "contactDetails": "Required details include greeting, full name, identification number, email, phone number, and photograph.",
+    "featuredEvents": "Featured Events",
+    "noEventsAvailable": "No featured events available.",
+    "descriptionUnavailable": "No description available.",
+    "dateTime": "Date and Time:"
+  },
+  "eventoForm": {
+    "title": "Title",
+    "guests": "Guests",
+    "dateTime": "Date and Time",
+    "timeZone": "Time Zone",
+    "description": "Description",
+    "repetition": "Repetition",
+    "reminder": "Reminder",
+    "classification": "Classification",
+    "place": "Place",
+    "submit": "Save Event",
+    "submitChanges": "Save Changes",
+    "none": "None",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "mandatoryFields": "Please fill in all required fields."
+  },
+  "eventoList": {
+    "title": "Event List"
+  },
+  "events": {
+    "manageEvents": "Event Management",
+    "eventListTitle": "List of Events",
+    "loadingEvents": "Loading events...",
+    "noEvents": "No events registered.",
+    "errorLoadingEvents": "Error loading events. Please try again.",
+    "title": "Title",
+    "dateTime": "Date and Time",
+    "timeZone": "Time Zone",
+    "guests": "Guests",
+    "description": "Description",
+    "repetition": "Repetition",
+    "reminder": "Reminder",
+    "classification": "Classification",
+    "place": "Place",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "eventDeleted": "Event successfully deleted.",
+    "errorDeletingEvent": "There was an error deleting the event.",
+    "eventUpdated": "Event updated successfully.",
+    "errorUpdatingEvent": "There was an error updating the event."
+  }
+}
+
+

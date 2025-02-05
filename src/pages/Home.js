@@ -1,65 +1,78 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import api from '../services/api';
+import '../i18nConfig';
+import {useTranslation} from "react-i18next";
+import ReactPlayer from 'react-player';
 
 const Home = () => {
     const [eventosDestacados, setEventosDestacados] = useState([]);
+    const [error, setError] = useState(null);
+    const {t} = useTranslation();
 
-    // Cargar eventos destacados desde la API
     useEffect(() => {
         const fetchEventosDestacados = async () => {
             try {
                 const response = await api.get('/eventos/');
-                setEventosDestacados(response.data.slice(0, 3)); // Mostrar solo los primeros 3 eventos
+                setEventosDestacados(response.data.slice(0, 3));
             } catch (error) {
                 console.error('Error al cargar eventos destacados:', error);
+                // setError(t('errors.fetchingEvents'));
             }
         };
 
         fetchEventosDestacados();
-    }, []);
+    }, [t]);  // Include `t` to handle changes in language
 
     return (
         <div className="container-body form">
             <div className="text-center mb-5">
-                <h1 className="display-4">Sistema de Gestión de Eventos</h1>
-                <p className="lead">
-                    Un sistema diseñado para ayudarte a organizar, registrar y consultar eventos importantes en tu institución educativa.
-                </p>
+                <h1 className="display-4">{t('home.title')}</h1>
+                <p className="lead">{t('home.subtitle')}</p>
             </div>
+            {error && <div className="alert alert-danger">{error}</div>}
+            <section className="text-center mb-5">
+                <h2>{t('home.titleVideo')}</h2> {/* Example title use */}
+                {/*<div className='player-wrapper'>
+                    <ReactPlayer
+                        url='https://www.youtube.com/watch?v=61_G4TtJlog'
+                        className='react-player'
+                        playing
+                        width='100%'
+                        height='100%'
+                        controls={true}
+                    />
+                </div>*/}
+            </section>
+
             <section className="mb-5">
-                <h2>¿Qué puedes hacer con este sistema?</h2>
+                <h2>{t('home.whatYouCanDo')}</h2>
                 <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                        <strong>Gestión de Eventos:</strong> Crea, consulta y administra conferencias, talleres y seminarios.
-                        <br />
-                        <em>Datos necesarios:</em> título, invitados, fecha y hora, zona horaria, descripción, lugar y recordatorio.
+                        <strong>{t('home.eventManagement')}</strong> {t('home.eventDetails')}
                     </li>
                     <li className="list-group-item">
-                        <strong>Ubicaciones:</strong> Registra y consulta los lugares donde se llevarán a cabo los eventos.
-                        <br />
-                        <em>Datos necesarios:</em> título, dirección y coordenadas geográficas.
+                        <strong>{t('home.locations')}</strong> {t('home.locationDetails')}
                     </li>
                     <li className="list-group-item">
-                        <strong>Contactos:</strong> Gestiona la información de los contactos relevantes para tus eventos.
-                        <br />
-                        <em>Datos necesarios:</em> saludo, nombre completo, número de identificación, correo electrónico, número de teléfono y fotografía.
+                        <strong>{t('home.contacts')}</strong> {t('home.contactDetails')}
                     </li>
                 </ul>
             </section>
             <section>
-                <h2 className="mb-4">Eventos Destacados</h2>
+                <h2 className="mb-4">{t('home.featuredEvents')}</h2>
                 <div className="row">
                     {eventosDestacados.length > 0 ? (
                         eventosDestacados.map((evento) => (
                             <div className="col-md-4" key={evento.id}>
                                 <div className="card mb-4 shadow-sm">
                                     <div className="card-body">
-                                        <h5 className="card-title">{evento.titulo}</h5>
+                                        <span className="card-title">{evento.titulo}</span>
                                         <p className="card-text">
-                                            {evento.descripcion ? evento.descripcion : 'Sin descripción disponible.'}
+                                            {evento.descripcion ? evento.descripcion : t('home.descriptionUnavailable')}
                                         </p>
                                         <p className="card-text">
-                                            <small className="text-muted">Fecha y hora: {evento.fecha_hora}</small>
+                                            <small
+                                                className="text-muted">{t('home.dateTime')} {new Date(evento.fecha_hora).toLocaleString()}</small>
                                         </p>
                                     </div>
                                 </div>
@@ -67,7 +80,7 @@ const Home = () => {
                         ))
                     ) : (
                         <div className="col-12 text-center">
-                            <p>No hay eventos destacados disponibles.</p>
+                            <p>{t('home.noEventsAvailable')}</p>
                         </div>
                     )}
                 </div>

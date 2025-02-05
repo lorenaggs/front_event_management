@@ -1,111 +1,104 @@
 import React, { useState, useEffect } from 'react';
-import UbicacionForm from '../components/UbicacionForm';
 import api from '../services/api';
+import UbicacionForm from '../components/UbicacionForm';
+import '../i18nConfig';
+import { useTranslation } from "react-i18next";
 
 const Ubicaciones = () => {
     const [ubicaciones, setUbicaciones] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [selectedUbicacion, setSelectedUbicacion] = useState(null); // Estado para la ubicación seleccionada
+    const [selectedUbicacion, setSelectedUbicacion] = useState(null);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchUbicaciones = async () => {
+            setLoading(true);
             try {
                 const response = await api.get('/ubicaciones/');
                 setUbicaciones(response.data);
-                setLoading(false);
             } catch (error) {
-                console.error('Error al cargar ubicaciones:', error);
-                setError('Error al cargar las ubicaciones. Por favor, inténtelo nuevamente.');
+                console.error(t('events.errorLoadingEvents'), error);
+                // setError(t('events.errorLoadingEvents'));
+            } finally {
                 setLoading(false);
             }
         };
 
         fetchUbicaciones();
-    }, []);
+    }, [t]);  // Including t to ensure re-fetching on language change
 
     const handleAddUbicacion = async (nuevaUbicacion) => {
         try {
             const response = await api.post('/ubicaciones/', nuevaUbicacion);
-            setUbicaciones((prevUbicaciones) => [...prevUbicaciones, response.data]); // Actualiza la tabla inmediatamente
-            alert('Ubicación guardada correctamente'); // Muestra la alerta después
+            setUbicaciones(prev => [...prev, response.data]);
+            // Replace alert with user-friendly feedback
         } catch (error) {
-            console.error('Error al agregar ubicación:', error);
-            alert('Hubo un error al guardar la ubicación.');
+            console.error(t('events.errorSaving'), error);
+            setError(t('events.errorSaving'));
         }
     };
 
-
     const handleUpdateUbicacion = async (ubicacionActualizada) => {
         try {
-            const response = await api.put(
-                `/ubicaciones/${selectedUbicacion.id}/`,
-                ubicacionActualizada
-            );
-            setUbicaciones(
-                ubicaciones.map((ubicacion) =>
-                    ubicacion.id === selectedUbicacion.id ? response.data : ubicacion
-                )
-            );
-            setSelectedUbicacion(null); // Limpia el formulario de edición
-            alert('Ubicación actualizada correctamente');
+            const response = await api.put(`/ubicaciones/${selectedUbicacion.id}/`, ubicacionActualizada);
+            setUbicaciones(prev => prev.map(ubicacion => ubicacion.id === selectedUbicacion.id ? response.data : ubicacion));
+            setSelectedUbicacion(null);
+            // Replace alert with user-friendly feedback
         } catch (error) {
-            console.error('Error al actualizar ubicación:', error);
-            alert('Hubo un error al actualizar la ubicación.');
+            console.error(t('events.errorUpdatingEvent'), error);
+            setError(t('events.errorUpdatingEvent'));
         }
     };
 
     const onDelete = async (id) => {
-        if (window.confirm('¿Estás seguro de que deseas eliminar esta ubicación?')) {
+        if (window.confirm(t('contactManagement.confirmDelete'))) {
             try {
                 await api.delete(`/ubicaciones/${id}/`);
-                setUbicaciones(ubicaciones.filter((ubicacion) => ubicacion.id !== id));
+                setUbicaciones(prev => prev.filter(ubicacion => ubicacion.id !== id));
                 if (selectedUbicacion && selectedUbicacion.id === id) {
-                    setSelectedUbicacion(null); // Limpia el formulario si el registro eliminado estaba seleccionado
+                    setSelectedUbicacion(null);
                 }
-                alert('Ubicación eliminada correctamente');
+                // Replace alert with user-friendly feedback
             } catch (error) {
-                console.error('Error al eliminar ubicación:', error);
-                alert('Hubo un error al eliminar la ubicación.');
+                console.error(t('events.errorDeletingEvent'), error);
+                setError(t('events.errorDeletingEvent'));
             }
         }
     };
 
     const onEdit = (id) => {
-        const ubicacion = ubicaciones.find((ubicacion) => ubicacion.id === id);
-        setSelectedUbicacion(ubicacion); // Selecciona la ubicación para edición
+        const ubicacion = ubicaciones.find(ubicacion => ubicacion.id === id);
+        setSelectedUbicacion(ubicacion);
     };
 
     return (
-        <div className="container py-4 form">
-            <h1 className="text-center">Gestión de Ubicaciones</h1>
+        <div className="container form">
+            <h1 className="text-center">{t('navbar.locations')}</h1>
+            {error && <div className="alert alert-danger">{error}</div>}
             {selectedUbicacion ? (
                 <UbicacionForm onSubmit={handleUpdateUbicacion} initialData={selectedUbicacion} />
             ) : (
                 <UbicacionForm onSubmit={handleAddUbicacion} />
             )}
             <div className="mt-5">
-                <h2>Lista de Ubicaciones</h2>
-                {loading ? (
-                    <p>Cargando ubicaciones...</p>
-                ) : error ? (
-                    <p className="text-danger">{error}</p>
-                ) : ubicaciones.length === 0 ? (
-                    <p>No hay ubicaciones registradas.</p>
+                <h2>{t('ubicacionForm.title')}</h2>
+                {loading ? <p>{t('events.loadingEvents')}</p> : ubicaciones.length === 0 ? (
+                    <p>{t('events.noEvents')}</p>
                 ) : (
                     <div className="table-responsive">
                         <table className="table table-striped table-bordered mt-3">
                             <thead className="table-dark">
                             <tr>
                                 <th>ID</th>
-                                <th>Título</th>
-                                <th>Dirección</th>
-                                <th>Coordenadas</th>
-                                <th>Acciones</th>
+                                <th>{t('ubicacionForm.title')}</th>
+                                <th>{t('ubicacionForm.address')}</th>
+                                <th>{t('ubicacionForm.coordinates')}</th>
+                                <th>{t('events.actions')}</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {ubicaciones.map((ubicacion) => (
+                            {ubicaciones.map(ubicacion => (
                                 <tr key={ubicacion.id}>
                                     <td>{ubicacion.id}</td>
                                     <td>{ubicacion.titulo}</td>
@@ -116,13 +109,13 @@ const Ubicaciones = () => {
                                             className="btn btn-warning btn-sm me-2"
                                             onClick={() => onEdit(ubicacion.id)}
                                         >
-                                            Editar
+                                            {t('events.edit')}
                                         </button>
                                         <button
                                             className="btn btn-danger btn-sm"
                                             onClick={() => onDelete(ubicacion.id)}
                                         >
-                                            Eliminar
+                                            {t('events.delete')}
                                         </button>
                                     </td>
                                 </tr>
