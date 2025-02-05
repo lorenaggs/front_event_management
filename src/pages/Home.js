@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import api from '../services/api';
 import '../i18nConfig';
 import {useTranslation} from "react-i18next";
+import ReactPlayer from "react-player";
 
 const Home = () => {
     const [eventosDestacados, setEventosDestacados] = useState([]);
@@ -31,16 +32,16 @@ const Home = () => {
             {error && <div className="alert alert-danger">{error}</div>}
             <section className="text-center mb-5">
                 <h2>{t('home.titleVideo')}</h2> {/* Example title use */}
-                {/*<div className='player-wrapper'>
+                <div className='player-wrapper'>
                     <ReactPlayer
-                        url='https://www.youtube.com/watch?v=61_G4TtJlog'
+                        url='https://www.youtube.com/watch?v=e38dBj55jUY'
                         className='react-player'
                         playing
                         width='100%'
                         height='100%'
                         controls={true}
                     />
-                </div>*/}
+                </div>
             </section>
 
             <section className="mb-5">
