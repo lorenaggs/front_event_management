@@ -129,7 +129,8 @@
     "eventEditLoaded": "Loading events to edit",
     "eventNotFound": "Event not found",
     "yesRememberEvent": "Yes",
-    "noRememberEvent": "No"
+    "noRememberEvent": "No",
+    "loadingEvent": "Cargando evento"
   },
   "footer": {
     "copyright": "© {{year}} Event Management. All rights reserved.",
